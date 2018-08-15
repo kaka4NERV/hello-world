@@ -13,3 +13,5 @@ This is the first readme I've done in english, I should do it in chinese next ti
 ### 更新计划
 - 在长段字幕间增加延时，使程序运行时有足够的阅读文字的时间
 - 优化游戏流程，更改成手动进入#1场景触发结局，而不是在其他场景直接通过文字描述触发结局
+- 利用flask框架将其做成web游戏!
+
