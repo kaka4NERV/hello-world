@@ -1,6 +1,7 @@
 from sys import exit
 from textwrap import dedent
 
+
 class Scene(object):
 
     def enter(self):
@@ -23,12 +24,13 @@ class Engine(object):
         last_scene = self.scene_map.next_scene('finished')
 
         begeining_message()
-        while current_scene != last_scene: # 通过结束场景后循环结束
-            next_scene_name = current_scene.enter() # 进入场景，并将通过流程后返回的场景名称字符串赋值给next_scene_name
-            current_scene = self.scene_map.next_scene(next_scene_name) #通过传入参数将对应的场景对象赋值给current_scene
+        while current_scene != last_scene:   # 通过结束场景后循环结束
+            next_scene_name = current_scene.enter()   # 进入场景，并将通过流程后返回的场景名称字符串赋值给next_scene_name
+            current_scene = self.scene_map.next_scene(next_scene_name)   # 通过传入参数将对应的场景对象赋值给current_scene
 
         # be sure to print out the last scene
         current_scene.enter()
+
 
 class Death(Scene):
 
@@ -70,7 +72,8 @@ class Riverside(Scene):
 
 class BloodScent(Scene):
 
-    def message(self):
+    @staticmethod
+    def message():
         print(dedent("""
             这气味似乎是人血，
             沿着河边一路传向远方树林中，
@@ -79,9 +82,8 @@ class BloodScent(Scene):
             你不清楚里面会发生什么。
             """))
 
-
     def enter(self):
-        if Scene.first_scene == False:
+        if not Scene.first_scene:
             Scene.first_scene = True
             Scene.find_cave = True
             self.message()
@@ -100,11 +102,11 @@ class BloodScent(Scene):
                 return 'riverside'
         else:
             self.message()
-            if Scene.find_meat == True:
+            if Scene.find_meat:
                     return 'ending01'
-            elif Scene.find_sword == True:
+            elif Scene.find_sword:
                     return 'ending02'
-            elif Scene.find_cave == True:
+            elif Scene.find_cave:
                     pass
             else:
                     return 'riverside'
@@ -125,7 +127,8 @@ class BloodScent(Scene):
 
 class BrokenMeat(Scene):
 
-    def message(self):
+    @staticmethod
+    def message():
         print(dedent("""
             你无法分辨腐肉属于哪种动物，
             但直觉告诉你这不属于人类。
@@ -142,25 +145,27 @@ class BrokenMeat(Scene):
             """))
 
     def enter(self):
-        if Scene.first_scene == False:
+        if not Scene.first_scene:
             Scene.first_scene = True
             Scene.find_meat = True
             self.message()
             return 'riverside'
         else:
             self.message()
-            if Scene.find_cave == True:
+            if Scene.find_cave:
                 return 'ending01'
-            elif Scene.find_sword == True:
+            elif Scene.find_sword:
                 return 'ending03'
-            elif Scene.find_meat == True:
+            elif Scene.find_meat:
                 return 'riverside'
             else:
                 return 'riverside'
 
+
 class WoodenSword(Scene):
 
-    def message(self):
+    @staticmethod
+    def message():
         print(dedent("""
             你拿着木剑找到了村长，
             他认出了这是凯拉的朋友瑞克的。
@@ -179,22 +184,24 @@ class WoodenSword(Scene):
             你已经获知了这次任务可能会与狼人扯上关系，
             因此你熬制了一瓶狼人药水并涂在银剑上。
             """))
+
     def enter(self):
-        if Scene.first_scene == False:
+        if not Scene.first_scene:
             Scene.first_scene = True
             Scene.find_sword = True
             self.message()
             return 'riverside'
         else:
             self.message()
-            if Scene.find_cave == True:
+            if Scene.find_cave:
                 return 'ending02'
-            elif Scene.find_meat == True:
+            elif Scene.find_meat:
                 return 'ending03'
-            elif Scene.find_sword == True:
+            elif Scene.find_sword:
                 return 'riverside'
             else:
                 return 'riverside'
+
 
 class Finished(Scene):
 
@@ -224,6 +231,7 @@ class Ending01(Scene):
             """))
         return 'finished'
 
+
 class Ending02(Scene):
 
     def enter(self):
@@ -245,6 +253,7 @@ class Ending02(Scene):
             必定和铁匠有一定关系。
             """))
         return 'after_ending'
+
 
 class Ending03(Scene):
 
@@ -294,6 +303,7 @@ class AfterEnding(Scene):
             print("你输入了错误的回答!")
             return 'finished'
 
+
 class Map(object):
 
     scenes = {
@@ -306,7 +316,7 @@ class Map(object):
         'ending03': Ending03(),
         'after_ending': AfterEnding(),
         'death': Death(),
-        'finished':Finished()
+        'finished': Finished()
     }
 
     def __init__(self, start_scene):
@@ -318,6 +328,7 @@ class Map(object):
 
     def opening_scene(self):
         return self.next_scene(self.start_scene)
+
 
 def begeining_message():
     print(dedent("""
@@ -331,6 +342,7 @@ def begeining_message():
             夜晚即将降临，天黑后现场可能会被在河边出没的水鬼破坏，
             你只来的及调查其中最多两件线索。
         """))
+
 
 a_map = Map('riverside')
 a_game = Engine(a_map)
