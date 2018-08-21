@@ -1,6 +1,5 @@
 from sys import exit
 from textwrap import dedent
-from time import sleep
 
 
 class Scene(object):
@@ -24,6 +23,7 @@ class Engine(object):
         last_scene = self.scene_map.next_scene('finished')
 
         begeining_message()
+        input("<<<请按回车继续>>>")
         while current_scene != last_scene:   # 通过结束场景后循环结束
             next_scene_name = current_scene.enter()   # 进入场景，并将通过流程后返回的场景名称字符串赋值给next_scene_name
             current_scene = self.scene_map.next_scene(next_scene_name)   # 通过传入参数将对应的场景对象赋值给current_scene
@@ -121,11 +121,12 @@ class BrokenMeat(Scene):
             可以用狼的心脏作为诱饵吸引一种凶猛的怪物-狼人，
             看来这个小女孩凶多吉少了。
             """))
-        sleep(5)
+        input("<<<请按回车继续>>>")
         print(dedent("""
             你已经获知了这次任务可能会与狼人扯上关系，
             因此你熬制了一瓶狼人药水并涂在银剑上。
             """))
+        input("<<<请按回车继续>>>")
 
     def enter(self):
         if not Scene.find_meat:
@@ -157,7 +158,7 @@ class WoodenSword(Scene):
             后来他看到树林中有一头直立行走的狼，
             于是害怕的一个人逃走了。
             """))
-        sleep(5)
+        input("<<<请按回车继续>>>")
         print(dedent("""
             你获得了两条关键信息：
             Kara遇上了狼人，恐怕已经凶多吉少；
@@ -165,6 +166,7 @@ class WoodenSword(Scene):
             你已经获知了这次任务可能会与狼人扯上关系，
             因此你熬制了一瓶狼人药水并涂在银剑上。
             """))
+        input("<<<请按回车继续>>>")
 
     def enter(self):
         if not Scene.find_sword:
@@ -202,7 +204,7 @@ class Ending01(Scene):
             你将Kara的剩余部分用衣服包起，
             愿她能在别处安息。
             """))
-        sleep(5)
+        input("<<<请按回车继续>>>")
         print(dedent("""
             你将Kara的遗骸交给村长，
             并带着赏金回到了狩魔猎人城堡。
@@ -225,12 +227,13 @@ class Ending02(Scene):
             你将Kara的剩余部分用衣服包起，
             愿她能在别处安息。
             """))
-        sleep(5)
+        input("<<<请按回车继续>>>")
         print(dedent("""
             你在狼人尸体上捡到了一件精巧的铁铸饰物，
             这种锻造技巧并不多见，
             必定和铁匠有一定关系。
             """))
+        input("<<<请按回车继续>>>")
         return 'after_ending'
 
 
@@ -238,7 +241,7 @@ class Ending03(Scene):
 
     def enter(self):
         print(dedent("""
-            你知道Kara可能已经遇害并且和铁匠有关，
+            你知道Kara可能已经遇害并且这事和铁匠有关，
             但当你回到河边时血腥气味已经接近消失了，
             你无法找到其他线索了，
             任务失败,你空手回到了狩魔猎人城堡。
@@ -264,7 +267,7 @@ class AfterEnding(Scene):
                 你侧身拔剑，将他刺了个对穿，
                 这是他该有的下场。
                 """))
-            sleep(5)
+            input("<<<请按回车继续>>>")
             print(dedent("""
                 成为杀人凶手的你拿不到赏金了，
                 并且还受到了领近村庄的通缉，
@@ -313,9 +316,9 @@ class Map(object):
 def begeining_message():
     print(dedent("""
             你是一位狩魔猎人，
-            某天你接到了溪木村村长的委托需要调查一个小女孩Kara的失踪事件，
-            你从村口铁匠口中了解到她最后在河边出现。
-            你来到河边，运用你的猎人感应发现了以下3样线索，
+            某天你接到了溪木村村长的委托需要前来调查村里小女孩Kara的失踪事件，
+            你从村口的铁匠口中了解到她经常在河边出现。
+            你来到河边，运用猎人感应发现了以下3样线索，
             你闻到了一股微弱的血腥气息，
             在一堆被挖开的泥土旁有一块不明动物的腐肉，
             靠近村庄方向的地上有1把玩具木剑。
