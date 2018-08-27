@@ -120,23 +120,20 @@ class BrokenMeat(Scene):
             狩魔猎人们都知道，
             可以用狼的心脏作为诱饵吸引一种凶猛的怪物-狼人，
             看来这个小女孩凶多吉少了。
+            这种怪物在月缺的夜晚通常会呆在洞穴里。
             """))
         input("<<<请按回车继续>>>")
-        print(dedent("""
-            你已经获知了这次任务可能会与狼人扯上关系，
-            因此你熬制了一瓶狼人药水并涂在银剑上。
-            """))
-        input("<<<请按回车继续>>>")
+        if not Scene.find_sword:
+            print(dedent("""
+                你已经获知了这次任务可能会与狼人扯上关系，
+                因此你熬制了一瓶狼人药水并涂在银剑上。
+                """))
+            input("<<<请按回车继续>>>")
 
     def enter(self):
-        if not Scene.find_meat:
             Scene.find_meat = True
             self.message()
-            print("你回到了河边")
-            return 'riverside'
-        else:
-            self.message()
-            if Scene.find_sword:
+            if Scene.find_sword and not Scene.find_cave:
                 return 'ending03'
             else:
                 print("你回到了河边")
@@ -162,21 +159,20 @@ class WoodenSword(Scene):
         print(dedent("""
             你获得了两条关键信息：
             Kara遇上了狼人，恐怕已经凶多吉少；
-            事情可能与铁匠有关,但你需要更多证据。
-            你已经获知了这次任务可能会与狼人扯上关系，
-            因此你熬制了一瓶狼人药水并涂在银剑上。
+            事情可能与铁匠有关,但你需要找到更多证据。
             """))
         input("<<<请按回车继续>>>")
+        if not Scene.find_meat:
+            print(dedent("""
+                你已经获知了这次任务可能会与狼人扯上关系，
+                因此你熬制了一瓶狼人药水并涂在银剑上。
+                """))
+            input("<<<请按回车继续>>>")
 
     def enter(self):
-        if not Scene.find_sword:
             Scene.find_sword = True
             self.message()
-            print("你回到了河边")
-            return 'riverside'
-        else:
-            self.message()
-            if Scene.find_meat and Scene.find_cave is False:
+            if Scene.find_meat and not Scene.find_cave:
                 return 'ending03'
             else:
                 print("你回到了河边")
@@ -242,7 +238,8 @@ class Ending03(Scene):
     def enter(self):
         print(dedent("""
             你知道Kara可能已经遇害并且这事和铁匠有关，
-            但当你回到河边时血腥气味已经接近消失了，
+            开始下雨了，
+            当你回到河边时血腥气味已经接近消失了，
             你无法找到其他线索了，
             任务失败,你空手回到了狩魔猎人城堡。
             """))
@@ -284,7 +281,7 @@ class AfterEnding(Scene):
             return 'finished'
         else:
             print("你输入了错误的回答!")
-            return 'finished'
+            return 'after_ending'
 
 
 class Map(object):
